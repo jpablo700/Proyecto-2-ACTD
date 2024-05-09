@@ -25,7 +25,9 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
 # path to env file
-env_path="C:\\Users\\20192818\\OneDrive - TU Eindhoven\\Documents\\Uniandes Intercambio\\Analitica Computacional\\Proyecto 2\\env\\app.env"
+ruta_actual=os.path.dirname(os.path.abspath(__file__))
+env_path=os.path.join(ruta_actual,'app.env')
+#env_path="C:\\Users\\20192818\\OneDrive - TU Eindhoven\\Documents\\Uniandes Intercambio\\Analitica Computacional\\Proyecto 2\\env\\app.env"
 # load env 
 load_dotenv(dotenv_path=env_path)
 # extract env variables
@@ -139,7 +141,8 @@ fig3.update_layout(title='Total Defaults by Gender',
                    yaxis=dict(title='Total Defaults'))
 
 # This line does the deserialization
-model = keras.models.load_model('C:\\Users\\20192818\\OneDrive - TU Eindhoven\\Documents\\Uniandes Intercambio\\Analitica Computacional\\Proyecto 2\\models\\default_pred.keras')
+model=keras.models.load_model(os.path.join(ruta_actual, 'default_pred.keras'))
+#model = keras.models.load_model('C:\\Users\\20192818\\OneDrive - TU Eindhoven\\Documents\\Uniandes Intercambio\\Analitica Computacional\\Proyecto 2\\models\\default_pred.keras')
 
 
 app.layout = html.Div([
@@ -331,17 +334,17 @@ def update_output_div(limit_bal, sex, education, marriage, age, pay_0, pay_2, pa
     scaled_pay_amt6 = (float(pay_amt6) - (-0.004321353)) / 1.053369428
 
     # Construct the input x
-    x = [[scaled_limit_bal, sex_value, education_value, marriage_value, scaled_age,
+    x =np.array( [[scaled_limit_bal, sex_value, education_value, marriage_value, scaled_age,
         scaled_pay_0, scaled_pay_2, scaled_pay_3, scaled_pay_4, scaled_pay_5, scaled_pay_6,
         scaled_bill_amt1, scaled_bill_amt2, scaled_bill_amt3, scaled_bill_amt4, scaled_bill_amt5, scaled_bill_amt6,
         scaled_pay_amt1, scaled_pay_amt2, scaled_pay_amt3, scaled_pay_amt4, scaled_pay_amt5, scaled_pay_amt6
-    ]]
+    ]])
     
     # Check inputs are correct 
     ypred = model.predict(x)
 
     # Convert ypred to float and format the probability as a percentage
-    prob_percentage = '{:.2f}%'.format(float(ypred[0][0]) * 100)
+    prob_percentage = '{:.2f}%'.format(float(ypred[0][1]) * 100)
     
     return prob_percentage
 
