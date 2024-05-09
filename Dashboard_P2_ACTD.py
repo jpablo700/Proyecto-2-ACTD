@@ -302,7 +302,7 @@ def update_output_div(limit_bal, sex, education, marriage, age, pay_0, pay_2, pa
     # Convert values from dropdown options to database values
     sex_mapping = {'Male': 1, 'Female': 2}
     education_mapping = {'graduate school': 1, 'university': 2, 'high school': 3, 'others': 4}
-    marriage_mapping = {'married': 0, 'single': 1, 'others': 2}
+    marriage_mapping = {'married': 1, 'single': 2, 'others': 3}
 
     sex_value = sex_mapping.get(sex)
     education_value = education_mapping.get(education)
